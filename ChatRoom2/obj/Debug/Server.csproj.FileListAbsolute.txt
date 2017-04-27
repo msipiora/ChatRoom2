@@ -1,0 +1,6 @@
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\bin\Debug\ChatRoom2.exe.config
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\bin\Debug\ChatRoom2.exe
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\bin\Debug\ChatRoom2.pdb
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\obj\Debug\Server.csprojResolveAssemblyReference.cache
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\obj\Debug\ChatRoom2.exe
+c:\users\mark\documents\visual studio 2015\Projects\ChatRoom2\ChatRoom2\obj\Debug\ChatRoom2.pdb
