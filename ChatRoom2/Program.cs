@@ -10,8 +10,9 @@ namespace ChatRoom2
     {
         static void Main(string[] args)
         {
-            Server server = new Server();
-            server.ListenForClient();
+            ChatLog chatlog = new ChatLog();
+            Server server = new Server(chatlog);
+            server.Listening();
         }
     }
 }

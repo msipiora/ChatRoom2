@@ -14,10 +14,9 @@ namespace ChatRoom2
         static void Main(string[] args)
         {
             Client client = new Client();
-            client.GetIPAddress();
-            client.ConnectUser();
-            client.UserInput();
-            client.SendMessage(client.UserName);
+            client.ConnectingToServer();
+            client.Sending(client.UserName);
+            client.EnterMessage();
         }
     }
 }

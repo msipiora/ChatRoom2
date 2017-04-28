@@ -7,64 +7,73 @@ using System.Net.Sockets;
 using System.Net;
 
 namespace ChatRoom2
-
 {
     class Client
     {
-        public string UserName;
         public string UserIP;
+        public string UserName;
+        public NetworkStream connection;
         TcpClient client;
-        public NetworkStream networkstream;
 
         public Client()
         {
-
+            GetUserIP();
+            UserName = GetUserName();
         }
 
-        public void GetIPAddress()
+
+        public void GetUserIP()
         {
-            Console.WriteLine("Enter your IP Address");
+            Console.WriteLine("What is your IP Address?");
             UserIP = Console.ReadLine();
-        }
 
-        public void ConnectUser()
+        }
+        public void ConnectingToServer()
         {
             client = new TcpClient(UserIP, 8080);
-            networkstream = client.GetStream();
-            Console.WriteLine("Connected to the server");
-            GetUserName();
+            connection = client.GetStream();
+            Console.WriteLine("Connected to server. Start chatting below");
         }
 
         public string GetUserName()
         {
-            Console.WriteLine("Enter your username");
-            UserName = Console.ReadLine();
-            Console.WriteLine($"/n Welcome to chat {UserName}.");
+            Console.Write("Enter your name: ");
+            string UserName = Console.ReadLine();
+            UserName = UserName + " ";
             return (UserName);
         }
 
-        public void UserInput()
+        public void EnterMessage()
         {
+            Task.Run(() => Receiving());
             string input = Console.ReadLine();
-            byte[] chat = Encoding.Unicode.GetBytes(input);
-            networkstream.Write(chat,0, chat.Length);
-            Task.Run(() => ReceiveMessage());
-            UserInput();
+            byte[] message = Encoding.Unicode.GetBytes(input);
+            connection.Write(message, 0, message.Length);
+            string entry = Encoding.Unicode.GetString(message, 0, message.Length);            
+            EnterMessage();
+            Console.ReadKey();
         }
 
-        public void SendMessage(string input)
+        public void Sending(string text)
         {
-            byte[] chat = Encoding.Unicode.GetBytes(input);
-            networkstream.Write(chat, 0, chat.Length);
+            byte[] message = Encoding.Unicode.GetBytes(text);
+            connection.Write(message, 0, message.Length);
         }
 
-        public void ReceiveMessage()
+        public void Receiving()
         {
-            byte[] buffer = new byte[client.ReceiveBufferSize];
-            int data = networkstream.Read(buffer, 0, client.ReceiveBufferSize);
-            string message = Encoding.Unicode.GetString(buffer, 0, data);
-            Console.WriteLine(message);
-            ReceiveMessage();
+            try
+            {
+                byte[] buffer = new byte[client.ReceiveBufferSize];
+                int data = connection.Read(buffer, 0, client.ReceiveBufferSize);
+                string message = Encoding.Unicode.GetString(buffer, 0, data);
+                Console.WriteLine(message);
+                Receiving();
+            }
+            catch (Exception)
+            {
+                return;
+            }
         }
     }
 }
